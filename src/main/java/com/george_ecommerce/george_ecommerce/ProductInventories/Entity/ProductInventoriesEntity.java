@@ -1,9 +1,11 @@
 package com.george_ecommerce.george_ecommerce.ProductInventories.Entity;
 
+import com.george_ecommerce.george_ecommerce.Products.Entity.ProductsEntity;
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "tbl_product_product_inventory")
@@ -17,7 +19,7 @@ public class ProductInventoriesEntity {
     @Id
     @SequenceGenerator(
             name = "z_sequence_product_inventory",
-            sequenceName = "z_sequence_product_category",
+            sequenceName = "z_sequence_product_inventory",
             allocationSize = 1
     )
     @GeneratedValue(
@@ -41,6 +43,13 @@ public class ProductInventoriesEntity {
 
     @Column(name = "updated_by")
     private Long updatedBy;
+
+    @OneToMany(
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            mappedBy = "productInventoriesEntity"
+    )
+    private List<ProductsEntity> productsEntityList;
 
     public ProductInventoriesEntity(
             Long productQuantity,

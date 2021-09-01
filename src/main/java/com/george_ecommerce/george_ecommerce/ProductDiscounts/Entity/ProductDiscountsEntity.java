@@ -1,9 +1,12 @@
 package com.george_ecommerce.george_ecommerce.ProductDiscounts.Entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.george_ecommerce.george_ecommerce.Products.Entity.ProductsEntity;
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "tbl_product_product_discount")
@@ -48,6 +51,13 @@ public class ProductDiscountsEntity {
     @Column(name = "updated_by")
     private Long updatedBy;
 
+    @JsonManagedReference(value = "product_discount_id")
+    @OneToMany(
+            mappedBy = "productDiscountsEntity",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL
+    )
+    private List<ProductsEntity> productsEntityList;
 
     public ProductDiscountsEntity(
             String productDiscountName,
