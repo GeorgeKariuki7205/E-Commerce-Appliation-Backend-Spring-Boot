@@ -1,12 +1,16 @@
 package com.george_ecommerce.george_ecommerce.Products.Entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.george_ecommerce.george_ecommerce.CartItems.Entity.CartItemsEntity;
+import com.george_ecommerce.george_ecommerce.OrderItems.Entity.OrderItemsEntity;
 import com.george_ecommerce.george_ecommerce.ProductCategory.Entity.ProductCategoryEntity;
 import com.george_ecommerce.george_ecommerce.ProductDiscounts.Entity.ProductDiscountsEntity;
 import com.george_ecommerce.george_ecommerce.ProductInventories.Entity.ProductInventoriesEntity;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "tbl_products")
@@ -72,6 +76,21 @@ public class ProductsEntity {
     )
     private ProductInventoriesEntity productInventoriesEntity;
 
+    @JsonManagedReference(value = "cart_item_product_id")
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            mappedBy = "cartItemProductsEntity"
+    )
+    private List<CartItemsEntity> cartItemsEntities;
+
+    @JsonManagedReference(value = "order_details_product_item")
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            mappedBy = "productsOrderItemEntity"
+    )
+    private List<OrderItemsEntity> orderItemsEntitiesProduct;
 
     @Column(name = "created_at", nullable = false)
     private Date createdAt;
